@@ -30,11 +30,23 @@
                 appendInputObserver(input)
                 statisfied.input = true
             }
+            var panels = document.querySelectorAll('div[class="propertiesPanel"]')
+            for(let panel of panels){
+                panel.style.overflowY = "scroll"
+            }
         },1000)
         var keyboardclose = setInterval(function(){
             var keyboardclose = document.querySelector('div[class="gwt-CustomButton closeTabbedKeyboardButton gwt-CustomButton-up"]')
             if(keyboardclose){
                 keyboardclose.remove()
+            }
+            var popup = document.querySelector('div[class="popupContent"]')
+            if(popup){
+                popup.style.overflowY = "scroll"
+//                 popup.style.height = (parseInt(popup.style.height.slice(0,-2))+100) + "px"
+                var dialogMainPanel = popup.querySelector('div[class="dialogMainPanel"]')
+                dialogMainPanel.style = "height:initial;"
+                oldpopup = popup
             }
         },250)
         function appendObserver(thing){
@@ -83,14 +95,6 @@
                 }
             }
         })
-        var interval2 = setInterval(function(){
-            var panels = document.querySelectorAll('div[class="propertiesPanel"]')
-
-            for(let panel of panels){
-                if(panel.style == "")
-                    panel.style.overflowY = "scroll"
-            }
-        },1000)
         observer.observe(document, {childList:true,subtree:true})
     </script>
     <style>
