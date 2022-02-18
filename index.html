@@ -37,7 +37,6 @@
             }
             for(var key of document.querySelectorAll('div.KeyBoardButton')){
                 if(!eventAddedKeyboardButtonList.includes(key)){
-                    console.log(key)
                     eventAddedKeyboardButtonList.push(key)
                     key.addEventListener('mousedown',function(){document.activeElement.scrollIntoView()})
                 }
