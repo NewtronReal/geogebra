@@ -18,6 +18,7 @@
             applet.getAppletObject().setWidth(window.innerWidth)
             applet.getAppletObject().setHeight(window.innerHeight)
         })
+        var eventAddedKeyboardButtonList = []
         var interval = setInterval(function(){
             var target = document.querySelectorAll("textarea")[0]
             var input = document.querySelector('div[class="avInputItem"]')
@@ -34,6 +35,13 @@
             for(let panel of panels){
                 panel.style.overflowY = "scroll"
             }
+            for(var key of document.querySelectorAll('div.KeyBoardButton')){
+                if(!eventAddedKeyboardButtonList.includes(key)){
+                    console.log(key)
+                    eventAddedKeyboardButtonList.push(key)
+                    key.addEventListener('mousedown',function(){document.activeElement.scrollIntoView()})
+                }
+            }
         },1000)
         var keyboardclose = setInterval(function(){
             var keyboardclose = document.querySelector('div[class="gwt-CustomButton closeTabbedKeyboardButton gwt-CustomButton-up"]')
@@ -49,23 +57,6 @@
                 oldpopup = popup
             }
         },250)
-        function appendObserver(thing){
-            var observer = new MutationObserver(function(mutations){
-                if(thing.querySelector('div[class="elemText scrollableTextBox"]')){
-                    thing.style.position = "absolute";
-                    thing.style.top = "0"
-                    thing.style.backgroundColor = "white";
-                    thing.style.zIndex = "999";
-                }
-                else{
-                    thing.style.position = "relative";
-                    thing.style.top = "";
-                    thing.style.backgroundColor = ""
-                    thing.style.zIndex = "0"
-                }
-            })
-            observer.observe(thing, {attributes:true,subtree:true})
-        }
         function appendInputObserver(thing){
             var observer = new MutationObserver(function(mutations){
                 if(thing.querySelector('div[class="gwt-TreeItem newRadioButtonTreeItemParent focused"]')){
@@ -86,9 +77,6 @@
         var observer = new MutationObserver(function(mutations){
             for(let mutation of mutations){
                 for(let addedNode of mutation.addedNodes){
-                    if(addedNode.classList && addedNode.classList[0] == "avItem"){
-                        appendObserver(addedNode);
-                    }
                     if(addedNode.className == "avInputItem"){
                         appendInputObserver(addedNode)
                     }
